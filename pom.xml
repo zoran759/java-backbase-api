@@ -15,6 +15,7 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<project.reporting.outputDirectory>src/main/resources/coverage</project.reporting.outputDirectory>
 		<project.camel.version>2.17.6</project.camel.version>
 		<project.logging.version>2.6.2</project.logging.version>
 	</properties>
@@ -131,6 +132,7 @@
 				<version>7.7.Final</version>
 			</plugin>
 
+			
 			<plugin>
 				<groupId>org.eluder.coveralls</groupId>
 				<artifactId>coveralls-maven-plugin</artifactId>
@@ -141,20 +143,41 @@
 			</plugin>
 
 			<plugin>
-				<groupId>org.jacoco</groupId>
-				<artifactId>jacoco-maven-plugin</artifactId>
-				<version>0.7.6.201602180812</version>
-				<executions>
-					<execution>
-						<id>prepare-agent</id>
-						<goals>
-							<goal>prepare-agent</goal>
-						</goals>
-					</execution>
-				</executions>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>cobertura-maven-plugin</artifactId>
+				<version>2.7</version>
+				<configuration>
+					<format>xml</format>
+					<maxmem>256m</maxmem>
+					<!-- aggregated reports for multi-module projects -->
+					<aggregate>true</aggregate>
+				</configuration>
 			</plugin>
+
+
 
 		</plugins>
 	</build>
+
+	<profiles>
+		<profile>
+			<id>travis</id>
+			<activation>
+				<property>
+					<name>env.TRAVIS</name>
+					<value>true</value>
+				</property>
+			</activation>
+		</profile>
+		<profile>
+			<id>jacoco</id>
+			<activation>
+				<property>
+					<name>env.JACOCO</name>
+					<value>true</value>
+				</property>
+			</activation>
+		</profile>
+	</profiles>
 
 </project>
