@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:spring-security="http://www.springframework.org/schema/security"
+	xsi:schemaLocation="
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd
+       http://camel.apache.org/schema/spring-security http://camel.apache.org/schema/spring-security/camel-spring-security.xsd
+         http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd">
+
+	<!-- <import resource="classpath:commonSecurity.xml" /> -->
+
+	<authorizationPolicy id="admin" access="ROLE_ADMIN"
+		authenticationManager="authenticationManager" accessDecisionManager="accessDecisionManager"
+		xmlns="http://camel.apache.org/schema/spring-security" />
+
+	<spring-security:authentication-manager	alias="authenticationManager">
+		<spring-security:authentication-provider
+			user-service-ref="userDetailsService" />
+	</spring-security:authentication-manager>
+
+	<spring-security:user-service id="userDetailsService">
+		<spring-security:user name="renam" password="renam"	authorities="ROLE_ADMIN" />
+		<spring-security:user name="jugular" password="gordo"	authorities="ROLE_ADMIN" />
+		<spring-security:user name="backbase" password="baseback"	authorities="ROLE_ADMIN" />
+	</spring-security:user-service>
+
+	<camelContext xmlns="http://camel.apache.org/schema/spring">
+		<package>com.backbase.backbase_api.router</package>
+		<package>com.backbase.backbase_api.rest</package>
+	</camelContext>
+
+	<bean id="accessDecisionManager" class="org.springframework.security.access.vote.AffirmativeBased">
+		<constructor-arg index="0">
+			<bean class="org.springframework.security.access.vote.RoleVoter" />
+		</constructor-arg>
+		<property name="allowIfAllAbstainDecisions" value="true" />
+	</bean>
+
+	<bean id="apiAuthenticationService" class="com.backbase.backbase_api.security.APIAuthenticationService"></bean>
+
+	<bean id="processBean" class="com.backbase.backbase_api.bean.ProcessBean"></bean>
+
+</beans>
