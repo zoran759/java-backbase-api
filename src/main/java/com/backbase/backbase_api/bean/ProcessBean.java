@@ -11,9 +11,12 @@ import org.apache.camel.Header;
 import com.backbase.backbase_api.model.ATM;
 
 public class ProcessBean {
-	
+	/**
+	 * Method that processes the malformed JSON retrieved from the external web service
+	 * @param exchange
+	 */
 	@Handler
-	public void process(Exchange exchange) {
+	public void processMalformedJson(Exchange exchange) {
 		String json = (String) exchange.getIn().getBody();
 
 		exchange.getIn().setBody(json.substring(5));
@@ -24,7 +27,7 @@ public class ProcessBean {
 		List<ATM> atms = Arrays.asList((ATM[]) exchange.getIn().getBody());
 		
 		for(ATM atm : atms) {
-			if(atm.getAddress().getCity().equals(city))
+			if(atm.getAddress().getCity().equals(city) && atm.getType().equals("ING"))
 				filteredATMs.add(atm);
 		}
 		

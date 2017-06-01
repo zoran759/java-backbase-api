@@ -5,12 +5,16 @@ import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.model.dataformat.JsonLibrary;
 
 import com.backbase.backbase_api.model.ATM;
-
+/**
+ * Class used to execute a call to the external web service
+ * URL: https://www.ing.nl/api/locator/atms/
+ * @author renam
+ *
+ */
 public class ExternalWebServiceRouter extends RouteBuilder {
 
 	@Override
 	public void configure() throws Exception {
-		//from("timer://testTimer?period=60000")
 		from("direct:callWebservice")
 			.streamCaching()
 			.setHeader(Exchange.HTTP_URI, simple("https://www.ing.nl/api/locator/atms/"))
@@ -21,7 +25,4 @@ public class ExternalWebServiceRouter extends RouteBuilder {
 		    .to("bean:processBean?method=filterByCity")
 		    .end();
 	}
-	
-	
-
 }

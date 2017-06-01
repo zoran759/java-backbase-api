@@ -16,13 +16,16 @@ public class MainRest extends RouteBuilder{
 	public void configure() throws Exception {
 		
 		onException(CamelAuthorizationException.class).handled(true)
-		.transform(simple("Access Denied. Please make sure you are authenticating and/or using the correct credentials for an ADMIN user"))
+		.transform(simple("Access Denied. Please make sure you are authenticating and/or using the correct credentials for an user of type ADMIN"))
 		.setHeader(Exchange.HTTP_RESPONSE_CODE, simple("401"));
 			
 		restConfiguration().component("servlet").port(8080).scheme("http");
 		
 		rest("/rest")
-			.consumes("application/json").produces("application/json").get("/find-atm").route().to("bean:apiAuthenticationService").policy("admin").to("direct:findATMByCity");
+			.consumes("application/json").produces("application/json").get("/find-atm")
+			.route().to("bean:apiAuthenticationService")
+			.policy("admin")
+			.to("direct:findATMByCity");
 		
 		from("direct:findATMByCity")
 		.setHeader("city", simple("${in.header.city}"))

@@ -20,8 +20,6 @@
 	</spring-security:authentication-manager>
 
 	<spring-security:user-service id="userDetailsService">
-		<spring-security:user name="renam" password="renam"	authorities="ROLE_ADMIN" />
-		<spring-security:user name="jugular" password="gordo"	authorities="ROLE_ADMIN" />
 		<spring-security:user name="backbase" password="baseback"	authorities="ROLE_ADMIN" />
 	</spring-security:user-service>
 

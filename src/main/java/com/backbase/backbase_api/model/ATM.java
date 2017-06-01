@@ -1,9 +1,10 @@
 package com.backbase.backbase_api.model;
 
-/*
- *  {address={street=Melchiorlaan, housenumber=1, postalcode=3722 AX, city=Bilthoven, geoLocation={lat=52.1296254, lng=5.2042862}}, distance=0.0, type=ING}
+/**
+ * Model class used to map data coming from the web service
+ * @author renam
+ *
  */
-
 public class ATM {
 	
 	private Address address;
