@@ -18,7 +18,7 @@
  
  The code is hosted in this public Github repository:
  
- https://github.com/renamsavio/backbase-api
+ https://github.com/zoran759/java-backbase-api.git
  
  The code coverage is using Cobertura and Coveralls plugins to run the tests and generate the reports.
  
